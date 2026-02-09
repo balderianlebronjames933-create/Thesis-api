@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const userRoutes = require("./routes/user");
 const movieRoutes = require("./routes/movie");
-const newsRoutes = require("./routes/news");
+// const newsRoutes = require("./routes/news");
 
 
 require('dotenv').config();
@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGODB_STRING);
 mongoose.connection.once('open', () => console.log("Now connected to MongoDB Atlas."));
 
 app.use("/users", userRoutes);
-app.use("/news", newsRoutes);
+// app.use("/news", newsRoutes);
 app.use("/movies", movieRoutes);
 
 
