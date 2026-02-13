@@ -8,6 +8,7 @@ exports.createOrg = async (req, res) => {
         // Use req.files instead of req.file
         const logo = req.files['logo'] ? req.files['logo'][0].path : "";
         const orgChart = req.files['orgChart'] ? req.files['orgChart'][0].path : "";
+        const banner = req.files['banner'] ? req.files['banner'][0].path : "";
 
         const newOrg = new Organization({
             name,
@@ -15,7 +16,7 @@ exports.createOrg = async (req, res) => {
             fbPageLink,
             logo,
             orgChart, // Add this
-            // banner
+            banner
         });
 
         await newOrg.save();
