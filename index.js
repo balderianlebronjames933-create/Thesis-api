@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const userRoutes = require("./routes/user");
-const movieRoutes = require("./routes/movie");
-// const newsRoutes = require("./routes/news");
+const postRoutes = require("./routes/post");
+const commentRoutes = require("./routes/comment");
+const orgRoutes = require("./routes/organization");
 
 
 require('dotenv').config();
@@ -14,7 +15,8 @@ const app = express();
 const corsOptions = {
 	origin: [
 		'http://localhost:3000',
-		'https://movie-app-client-gray.vercel.app'
+		'http://192.168.254.102:3000'
+
 	],
 	credentials: true,
 	optionsSuccessStatus: 200
@@ -30,8 +32,10 @@ mongoose.connect(process.env.MONGODB_STRING);
 mongoose.connection.once('open', () => console.log("Now connected to MongoDB Atlas."));
 
 app.use("/users", userRoutes);
-// app.use("/news", newsRoutes);
-app.use("/movies", movieRoutes);
+app.use("/posts", postRoutes);
+app.use("/comments", commentRoutes);
+app.use("/organizations", orgRoutes);
+
 
 
 if(require.main === module){

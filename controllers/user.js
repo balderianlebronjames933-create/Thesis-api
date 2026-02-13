@@ -4,10 +4,19 @@ const { createAccessToken } = require("../auth");
 
 exports.register = async (req, res) => {
     try {
-        const { email, password, isAdmin } = req.body;
+        // Destructure new fields from req.body
+        const { firstName, lastName, email, password, isAdmin } = req.body; 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = new User({ email, password: hashedPassword, isAdmin });
+        // Pass new fields into the new User instance
+        const user = new User({ 
+            firstName, 
+            lastName, 
+            email, 
+            password: hashedPassword, 
+            isAdmin 
+        });
+        
         await user.save();
         res.status(201).json({ message: "User registered successfully." });
     } catch (err) {
