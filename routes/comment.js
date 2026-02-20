@@ -7,13 +7,15 @@ const { verify, verifyAdmin } = require("../auth");
 router.post("/addComment", verify, commentController.addComment);
 
 // Get comments for a specific post
-router.get("/getComments/:postId", verify, commentController.getCommentsByPost);
+router.get("/getComments/:postId",  commentController.getCommentsByPost);
 
 // Edit own comment
 router.patch("/updateComment/:id", verify, commentController.updateComment);
 
 // Delete own comment (Standard user)
 router.delete("/deleteComment/:id", verify, commentController.deleteComment);
+
+router.patch("/updateStatus/:id", verify, verifyAdmin, commentController.updateStatus);
 
 // Admin moderation delete (Admin only)
 router.delete("/adminDeleteComment/:id", verify, verifyAdmin, commentController.adminDeleteComment);

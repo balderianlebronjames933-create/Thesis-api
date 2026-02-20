@@ -9,7 +9,7 @@ exports.addComment = async (req, res) => {
             userId: req.user.id
         });
         const savedComment = await newComment.save();
-        res.status(201).json(await savedComment.populate("userId", "firstName lastName"));
+        res.status(201).json(await savedComment.populate("userId", "firstName lastName isAdmin"));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -19,7 +19,7 @@ exports.addComment = async (req, res) => {
 exports.getCommentsByPost = async (req, res) => {
     try {
         const comments = await Comment.find({ postId: req.params.postId })
-            .populate("userId", "firstName lastName")
+            .populate("userId", "firstName lastName isAdmin")
             .sort({ createdAt: 1 });
         res.status(200).json(comments);
     } catch (err) {
@@ -71,6 +71,28 @@ exports.adminDeleteComment = async (req, res) => {
         // No ownership check needed; verifyAdmin middleware handles the role check
         await comment.deleteOne();
         res.status(200).json({ message: "Comment permanently removed by Admin." });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// ADMIN UPDATE: Change status (active/hidden)
+exports.updateStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const updatedComment = await Comment.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        ).populate("userId", "firstName lastName isAdmin");
+
+        if (!updatedComment) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+
+        res.status(200).json(updatedComment);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
