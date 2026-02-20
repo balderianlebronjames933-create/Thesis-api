@@ -18,7 +18,7 @@ const corsOptions = {
 		'http://localhost:3001',
 		'http://192.168.254.102:3000',
 		'http://192.168.100.206:3000',
-		'https://thesis-client-six.vercel.app/',
+		'https://thesis-client-six.vercel.app',
 
 	],
 	credentials: true,
